@@ -1,9 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Loader2, Search } from "lucide-react";
 
 interface UserInputFormProps {
@@ -12,7 +18,7 @@ interface UserInputFormProps {
 }
 
 export function UserInputForm({ onSubmit, isLoading }: UserInputFormProps) {
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState("10089636"); // Default to Colonial
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,22 +32,30 @@ export function UserInputForm({ onSubmit, isLoading }: UserInputFormProps) {
       <CardHeader>
         <CardTitle>Price Mismatch Lookup</CardTitle>
         <CardDescription>
-          Enter a SquadUp user ID to analyze event pricing tiers and identify fee mismatches
+          Select a venue to analyze event pricing tiers and identify fee mismatches
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="flex gap-4">
           <div className="flex-1">
-            <Input
-              type="text"
-              placeholder="Enter User ID (e.g., 10089636)"
+            <Select
               value={userId}
-              onChange={(e) => setUserId(e.target.value)}
+              onValueChange={setUserId}
               disabled={isLoading}
-              className="text-base"
-              pattern="[0-9]*"
-              inputMode="numeric"
-            />
+            >
+              <SelectTrigger className="text-base h-11">
+                <SelectValue placeholder="Select a venue" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="10089636">Colonial</SelectItem>
+                <SelectItem value="7867604" disabled>
+                  Elysian (Coming Soon)
+                </SelectItem>
+                <SelectItem value="9987142" disabled>
+                  Gotham (Coming Soon)
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <Button type="submit" disabled={isLoading || !userId.trim()} size="lg">
             {isLoading ? (
