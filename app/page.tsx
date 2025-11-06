@@ -43,7 +43,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 to-slate-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 mb-3">
