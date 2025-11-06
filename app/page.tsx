@@ -47,7 +47,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 mb-3">
-            Colonial Price Mismatch Analyzer
+            Price Mismatch Analyzer
           </h1>
           <p className="text-lg text-slate-600">
             Identify pricing tier fee discrepancies across your events

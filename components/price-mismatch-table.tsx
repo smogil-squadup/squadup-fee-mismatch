@@ -10,7 +10,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle2, AlertTriangle } from "lucide-react";
 
@@ -19,7 +25,10 @@ interface PriceMismatchTableProps {
   totalEvents: number;
 }
 
-export function PriceMismatchTable({ mismatches, totalEvents }: PriceMismatchTableProps) {
+export function PriceMismatchTable({
+  mismatches,
+  totalEvents,
+}: PriceMismatchTableProps) {
   if (mismatches.length === 0) {
     return (
       <Card className="w-full">
@@ -36,7 +45,8 @@ export function PriceMismatchTable({ mismatches, totalEvents }: PriceMismatchTab
           <Alert className="bg-green-50 border-green-200">
             <CheckCircle2 className="h-4 w-4 text-green-600" />
             <AlertDescription className="text-green-900">
-              No pricing mismatches found. All price tiers follow the correct fee structure.
+              No pricing mismatches found. All price tiers follow the correct
+              fee structure.
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -52,7 +62,9 @@ export function PriceMismatchTable({ mismatches, totalEvents }: PriceMismatchTab
           Price Mismatches Found
         </CardTitle>
         <CardDescription>
-          Found {mismatches.length} {mismatches.length === 1 ? "mismatch" : "mismatches"} across {totalEvents} {totalEvents === 1 ? "event" : "events"}
+          Found {mismatches.length}{" "}
+          {mismatches.length === 1 ? "mismatch" : "mismatches"} across{" "}
+          {totalEvents} {totalEvents === 1 ? "event" : "events"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -71,7 +83,9 @@ export function PriceMismatchTable({ mismatches, totalEvents }: PriceMismatchTab
             </TableHeader>
             <TableBody>
               {mismatches.map((mismatch) => (
-                <TableRow key={`${mismatch.eventId}-${mismatch.priceTierId}`} className="hover:bg-amber-50/50">
+                <TableRow
+                  key={`${mismatch.eventId}-${mismatch.priceTierId}`}
+                  className="hover:bg-amber-50/50">
                   <TableCell className="font-medium max-w-md">
                     <div className="truncate" title={mismatch.eventName}>
                       {mismatch.eventName}
@@ -84,9 +98,13 @@ export function PriceMismatchTable({ mismatches, totalEvents }: PriceMismatchTab
                   </TableCell>
                   <TableCell>{mismatch.priceTierName}</TableCell>
                   <TableCell className="text-center">
-                    <code className="text-xs bg-slate-100 px-2 py-1 rounded">
+                    <a
+                      href={`https://www.squadup.com/admin/price_tiers/${mismatch.priceTierId}/edit`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs bg-slate-100 px-2 py-1 rounded hover:bg-slate-200 transition-colors inline-block font-mono text-blue-600 hover:text-blue-800 underline decoration-dotted underline-offset-2">
                       {mismatch.priceTierId}
-                    </code>
+                    </a>
                   </TableCell>
                   <TableCell className="text-right font-mono">
                     ${mismatch.price.toFixed(2)}
@@ -97,7 +115,9 @@ export function PriceMismatchTable({ mismatches, totalEvents }: PriceMismatchTab
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Badge variant="outline" className="font-mono border-green-600 text-green-700">
+                    <Badge
+                      variant="outline"
+                      className="font-mono border-green-600 text-green-700">
                       ${mismatch.expectedFee.toFixed(2)}
                     </Badge>
                   </TableCell>
