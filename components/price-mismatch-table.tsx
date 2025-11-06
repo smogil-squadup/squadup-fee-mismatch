@@ -70,7 +70,7 @@ export function PriceMismatchTable({ mismatches, totalEvents }: PriceMismatchTab
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mismatches.map((mismatch, index) => (
+              {mismatches.map((mismatch) => (
                 <TableRow key={`${mismatch.eventId}-${mismatch.priceTierId}`} className="hover:bg-amber-50/50">
                   <TableCell className="font-medium max-w-md">
                     <div className="truncate" title={mismatch.eventName}>

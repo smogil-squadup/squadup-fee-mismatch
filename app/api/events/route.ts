@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { SquadUpApiResponse, Event, PriceMismatch } from "@/lib/types";
+import { SquadUpApiResponse, Event } from "@/lib/types";
 import { findPriceMismatches } from "@/lib/validators";
 
 const SQUADUP_API_BASE = "https://www.squadup.com/api/v3/events";
