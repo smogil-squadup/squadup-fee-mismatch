@@ -1,6 +1,7 @@
 "use client";
 
 import { PriceMismatch } from "@/lib/types";
+import { VenueId } from "@/lib/validators";
 import {
   Table,
   TableBody,
@@ -23,11 +24,32 @@ import { CheckCircle2, AlertTriangle } from "lucide-react";
 interface PriceMismatchTableProps {
   mismatches: PriceMismatch[];
   totalEvents: number;
+  venueId: VenueId;
 }
+
+// Venue-specific fee rules for display
+const VENUE_FEE_RULES: Record<VenueId, { rules: string[] }> = {
+  "10089636": {
+    rules: [
+      "Price ≤ $12.00 → SquadUp fee should be $1.00",
+      "Price > $12.00 → SquadUp fee should be $2.00",
+    ],
+  },
+  "7867604": {
+    rules: [
+      "Price ≤ $30.00 → SquadUp fee should be $2.00",
+      "Price > $30.00 → SquadUp fee should be $2.50",
+    ],
+  },
+  "9987142": {
+    rules: ["Rules coming soon"],
+  },
+};
 
 export function PriceMismatchTable({
   mismatches,
   totalEvents,
+  venueId,
 }: PriceMismatchTableProps) {
   if (mismatches.length === 0) {
     return (
@@ -129,8 +151,9 @@ export function PriceMismatchTable({
         <div className="mt-4 text-sm text-muted-foreground">
           <p className="font-medium mb-1">Fee Rules:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Price ≤ $12.00 → SquadUp fee should be $1.00</li>
-            <li>Price &gt; $12.00 → SquadUp fee should be $2.00</li>
+            {VENUE_FEE_RULES[venueId].rules.map((rule, index) => (
+              <li key={index}>{rule}</li>
+            ))}
           </ul>
         </div>
       </CardContent>

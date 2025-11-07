@@ -4,6 +4,7 @@ import { useState } from "react";
 import { UserInputForm } from "@/components/user-input-form";
 import { PriceMismatchTable } from "@/components/price-mismatch-table";
 import { PriceMismatch } from "@/lib/types";
+import { VenueId } from "@/lib/validators";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 
@@ -17,11 +18,13 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<ApiResponse | null>(null);
+  const [selectedVenue, setSelectedVenue] = useState<VenueId | null>(null);
 
   const handleSubmit = async (userId: string) => {
     setIsLoading(true);
     setError(null);
     setResults(null);
+    setSelectedVenue(userId as VenueId);
 
     try {
       const response = await fetch(`/api/events?user_id=${userId}`);
@@ -64,10 +67,11 @@ export default function Home() {
             </Alert>
           )}
 
-          {results && (
+          {results && selectedVenue && (
             <PriceMismatchTable
               mismatches={results.mismatches}
               totalEvents={results.totalEvents}
+              venueId={selectedVenue}
             />
           )}
         </div>
