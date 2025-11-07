@@ -4,6 +4,7 @@ export type VenueId = "10089636" | "7867604" | "9987142";
 
 interface VenueRules {
   name: string;
+  defaultFee: number;
   calculateExpectedFee: (price: number) => number;
 }
 
@@ -14,6 +15,7 @@ const VENUE_RULES: Record<VenueId, VenueRules> = {
   "10089636": {
     // Colonial
     name: "Colonial",
+    defaultFee: 1, // When squadup_fee_dollar is null
     calculateExpectedFee: (price: number) => {
       if (price <= 12) {
         return 1;
@@ -25,6 +27,7 @@ const VENUE_RULES: Record<VenueId, VenueRules> = {
   "7867604": {
     // Elysian
     name: "Elysian",
+    defaultFee: 2, // When squadup_fee_dollar is null
     calculateExpectedFee: (price: number) => {
       if (price <= 30) {
         return 2;
@@ -36,6 +39,7 @@ const VENUE_RULES: Record<VenueId, VenueRules> = {
   "9987142": {
     // Gotham (placeholder - coming soon)
     name: "Gotham",
+    defaultFee: 0,
     calculateExpectedFee: () => {
       // Placeholder rules - will be defined later
       return 0;
@@ -53,14 +57,26 @@ export function validatePriceTier(
   venueId: VenueId
 ): PriceMismatch | null {
   const price = parseFloat(priceTier.price);
-  const squadupFee = parseFloat(priceTier.squadup_fee_dollar);
 
-  // Skip validation if price or fee data is invalid
-  if (isNaN(price) || isNaN(squadupFee)) {
+  // Skip validation if price data is invalid
+  if (isNaN(price)) {
     return null;
   }
 
   const venueRules = VENUE_RULES[venueId];
+
+  // If squadup_fee_dollar is null or empty, use venue's default fee
+  let squadupFee: number;
+  if (priceTier.squadup_fee_dollar === null || priceTier.squadup_fee_dollar === "") {
+    squadupFee = venueRules.defaultFee;
+  } else {
+    squadupFee = parseFloat(priceTier.squadup_fee_dollar);
+    // If parsing fails, skip validation
+    if (isNaN(squadupFee)) {
+      return null;
+    }
+  }
+
   const expectedFee = venueRules.calculateExpectedFee(price);
 
   // If the actual fee doesn't match the expected fee, it's a mismatch

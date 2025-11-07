@@ -109,13 +109,18 @@ Implemented in [lib/validators.ts](lib/validators.ts) with venue-specific rules:
 **Colonial (ID: 10089636)**
 - If `price <= 12.00` → `squadup_fee_dollar` must equal `1.00`
 - If `price > 12.00` → `squadup_fee_dollar` must equal `2.00`
+- Default fee when `squadup_fee_dollar` is `null`: `1.00`
 
 **Elysian (ID: 7867604)**
 - If `price <= 30.00` → `squadup_fee_dollar` must equal `2.00`
 - If `price > 30.00` → `squadup_fee_dollar` must equal `2.50`
+- Default fee when `squadup_fee_dollar` is `null`: `2.00`
 
 **Gotham (ID: 9987142)**
 - Coming soon - placeholder rules currently in place
+
+**Null Handling:**
+When `squadup_fee_dollar` is `null` or empty in the API response, the validator uses the venue's default fee for comparison. This ensures price tiers with missing fee data are still validated against the correct baseline.
 
 ## Important Notes
 
