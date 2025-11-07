@@ -74,6 +74,17 @@ export interface Image {
   default_url: string;
 }
 
+export interface EventDate {
+  id: number;
+  name: string;
+  quantity_remaining: number;
+  auto_expand: boolean;
+  sold_out: boolean;
+  min_qty: number | null;
+  max_qty: number | null;
+  price_tiers: PriceTier[];
+}
+
 export interface Event {
   id: number;
   name: string;
@@ -95,6 +106,7 @@ export interface Event {
   updated_at: string;
   created_at: string;
   price_tiers: PriceTier[];
+  event_dates?: EventDate[];
 }
 
 export interface PagingMeta {

@@ -89,19 +89,29 @@ When adding shadcn/ui components, they will be installed to `components/ui/` dir
 ## SquadUp API Integration
 
 ### Endpoint
-`https://www.squadup.com/api/v3/events?page_number={n}&page_size=100&user_ids={id}&include=price_tiers`
+`https://www.squadup.com/api/v3/events?page_number={n}&page_size=100&user_ids={id}&include=price_tiers,event_dates`
 
 ### Key Response Fields
 - `events[]` - Array of event objects
   - `id` - Event ID
   - `name` - Event title
   - `name_line_2` - Event subtitle (often featuring artists)
-  - `price_tiers[]` - Array of pricing tier objects
+  - `price_tiers[]` - Array of pricing tier objects at event level
     - `id` - Price tier ID
     - `name` - Tier name (e.g., "General Admission", "Advanced")
     - `price` - Ticket price (string, needs parsing)
     - `squadup_fee_dollar` - SquadUp fee amount (string, needs parsing)
+  - `event_dates[]` - Array of event date objects (optional)
+    - `id` - Event date ID
+    - `name` - Event date name (e.g., "Ticket Tiers")
+    - `price_tiers[]` - Array of pricing tier objects within this event date
 - `meta.paging.total_pages` - Total number of pages (for pagination)
+
+**Note:** Price tiers can exist at two levels:
+1. Directly on the event (`event.price_tiers`)
+2. Within event dates (`event.event_dates[].price_tiers`)
+
+The validator checks both locations to ensure complete coverage.
 
 ### Validation Rules
 Implemented in [lib/validators.ts](lib/validators.ts) with venue-specific rules:

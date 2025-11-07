@@ -110,11 +110,25 @@ export function findPriceMismatches(
       ? `${event.name} - ${event.name_line_2}`
       : event.name;
 
-    // Check each price tier
+    // Check each price tier at event level
     for (const priceTier of event.price_tiers) {
       const mismatch = validatePriceTier(priceTier, eventName, event.id, venueId);
       if (mismatch) {
         mismatches.push(mismatch);
+      }
+    }
+
+    // Check price tiers within event_dates
+    if (event.event_dates && event.event_dates.length > 0) {
+      for (const eventDate of event.event_dates) {
+        if (eventDate.price_tiers && eventDate.price_tiers.length > 0) {
+          for (const priceTier of eventDate.price_tiers) {
+            const mismatch = validatePriceTier(priceTier, eventName, event.id, venueId);
+            if (mismatch) {
+              mismatches.push(mismatch);
+            }
+          }
+        }
       }
     }
   }

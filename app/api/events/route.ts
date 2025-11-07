@@ -12,7 +12,7 @@ async function fetchEventsPage(
   pageNumber: number,
   pageSize: number = 100
 ): Promise<SquadUpApiResponse> {
-  const url = `${SQUADUP_API_BASE}?page_number=${pageNumber}&page_size=${pageSize}&user_ids=${userId}&include=price_tiers`;
+  const url = `${SQUADUP_API_BASE}?page_number=${pageNumber}&page_size=${pageSize}&user_ids=${userId}&include=price_tiers,event_dates`;
 
   const response = await fetch(url, {
     method: "GET",
