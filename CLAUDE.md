@@ -79,12 +79,12 @@ When adding shadcn/ui components, they will be installed to `components/ui/` dir
 
 ## Application Flow
 
-1. **User Input**: User enters a SquadUp User ID in the form
+1. **User Input**: User selects a venue from the dropdown (Colonial or Elysian)
 2. **API Call**: Client calls `/api/events?user_id={id}` which:
    - Fetches all events from SquadUp API (handles pagination automatically)
-   - Validates all price tiers against fee rules
+   - Validates all price tiers against venue-specific fee rules
    - Returns only mismatched price tiers
-3. **Display Results**: Shows mismatches in a table with event and price tier details
+3. **Display Results**: Shows mismatches in a table with event and price tier details including a clickable link to edit the price tier in SquadUp admin
 
 ## SquadUp API Integration
 
@@ -104,9 +104,18 @@ When adding shadcn/ui components, they will be installed to `components/ui/` dir
 - `meta.paging.total_pages` - Total number of pages (for pagination)
 
 ### Validation Rules
-Implemented in [lib/validators.ts](lib/validators.ts):
+Implemented in [lib/validators.ts](lib/validators.ts) with venue-specific rules:
+
+**Colonial (ID: 10089636)**
 - If `price <= 12.00` → `squadup_fee_dollar` must equal `1.00`
 - If `price > 12.00` → `squadup_fee_dollar` must equal `2.00`
+
+**Elysian (ID: 7867604)**
+- If `price <= 30.00` → `squadup_fee_dollar` must equal `2.00`
+- If `price > 30.00` → `squadup_fee_dollar` must equal `2.50`
+
+**Gotham (ID: 9987142)**
+- Coming soon - placeholder rules currently in place
 
 ## Important Notes
 
@@ -116,3 +125,5 @@ Implemented in [lib/validators.ts](lib/validators.ts):
 - ESLint is configured with Next.js core-web-vitals and TypeScript rules
 - The API route handles pagination automatically by fetching the first page, checking total pages, then fetching remaining pages in parallel
 - Price values from SquadUp API are strings and must be parsed to numbers for comparison
+- The application supports multiple venues with different pricing rules via a centralized validation system in `lib/validators.ts`
+- Each venue has its own fee calculation logic defined in the `VENUE_RULES` constant

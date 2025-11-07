@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SquadUpApiResponse, Event } from "@/lib/types";
-import { findPriceMismatches } from "@/lib/validators";
+import { findPriceMismatches, VenueId } from "@/lib/validators";
 
 const SQUADUP_API_BASE = "https://www.squadup.com/api/v3/events";
 
@@ -62,6 +62,8 @@ async function fetchAllEvents(userId: string): Promise<Event[]> {
   return allEvents;
 }
 
+const VALID_VENUE_IDS: VenueId[] = ["10089636", "7867604", "9987142"];
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -82,11 +84,21 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Validate userId is a known venue
+    if (!VALID_VENUE_IDS.includes(userId as VenueId)) {
+      return NextResponse.json(
+        { error: "Invalid venue ID" },
+        { status: 400 }
+      );
+    }
+
+    const venueId = userId as VenueId;
+
     // Fetch all events across all pages
     const events = await fetchAllEvents(userId);
 
-    // Find price mismatches
-    const mismatches = findPriceMismatches(events);
+    // Find price mismatches using venue-specific rules
+    const mismatches = findPriceMismatches(events, venueId);
 
     return NextResponse.json({
       totalEvents: events.length,

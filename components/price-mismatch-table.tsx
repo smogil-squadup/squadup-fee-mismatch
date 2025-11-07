@@ -107,18 +107,18 @@ export function PriceMismatchTable({
                     </a>
                   </TableCell>
                   <TableCell className="text-right font-mono">
-                    ${mismatch.price.toFixed(2)}
+                    ${(mismatch.price ?? 0).toFixed(2)}
                   </TableCell>
                   <TableCell className="text-right">
                     <Badge variant="destructive" className="font-mono">
-                      ${mismatch.squadupFeeDollar.toFixed(2)}
+                      ${(mismatch.squadupFeeDollar ?? 0).toFixed(2)}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     <Badge
                       variant="outline"
                       className="font-mono border-green-600 text-green-700">
-                      ${mismatch.expectedFee.toFixed(2)}
+                      ${(mismatch.expectedFee ?? 0).toFixed(2)}
                     </Badge>
                   </TableCell>
                 </TableRow>

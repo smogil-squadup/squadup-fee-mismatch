@@ -48,9 +48,7 @@ export function UserInputForm({ onSubmit, isLoading }: UserInputFormProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="10089636">Colonial</SelectItem>
-                <SelectItem value="7867604" disabled>
-                  Elysian (Coming Soon)
-                </SelectItem>
+                <SelectItem value="7867604">Elysian</SelectItem>
                 <SelectItem value="9987142" disabled>
                   Gotham (Coming Soon)
                 </SelectItem>
